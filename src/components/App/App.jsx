@@ -3,7 +3,6 @@ import { nanoid } from 'nanoid';
 
 import ContactsList from 'components/ContactsList/ContactsList';
 import ContactForm from 'components/ContactForm';
-import Container from 'components/Container';
 import Filter from 'components/Filter';
 
 class App extends Component {
@@ -36,8 +35,8 @@ class App extends Component {
   };
 
   deleteContact = id => {
-    this.setState(ps => ({
-      contacts: ps.contacts.filter(contact => contact.id !== id),
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== id),
     }));
   };
 
@@ -60,8 +59,8 @@ class App extends Component {
     }
   }
 
-  componentDidUpdate(pp, ps) {
-    if (this.state.contacts.length !== ps.contacts.length) {
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts.length !== prevState.contacts.length) {
       localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
   }
@@ -72,13 +71,13 @@ class App extends Component {
       this;
 
     return (
-      <Container>
+      <div>
         <h1>Phonebook</h1>
         <ContactForm addContact={addContact} />
         <h2>Contacts</h2>
         <Filter value={filter} onFilterChange={handleFilterChange} />
         <ContactsList list={getFindContact()} onClick={deleteContact} />
-      </Container>
+      </div>
     );
   }
 }
